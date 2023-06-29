@@ -28,17 +28,13 @@ class Home extends StatelessWidget {
         future: webtoons,
         builder: (context, snapshot) {
           if (snapshot.hasData == true) {
-            return ListView.separated(
-              scrollDirection : Axis.horizontal,
-              itemCount: snapshot.data!.length,
-              //scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return Text(
-                  snapshot.data![index].title,
-                  style: const TextStyle(fontSize: 20),
-                );
-              },
-              separatorBuilder: (context, index) => const SizedBox(width: 20),
+            return Column(
+              children: [
+                const SizedBox(
+                  height: 50,
+                ),
+                Expanded(child: MakeWebtoonList(snapshot)),
+              ],
             );
           } else {
             return const Center(
@@ -51,4 +47,50 @@ class Home extends StatelessWidget {
       ),
     );
   }
+
+  ListView MakeWebtoonList(AsyncSnapshot<List<webtoon_model>> snapshot) {
+    return ListView.separated(
+      scrollDirection: Axis.horizontal,
+      itemCount: snapshot.data!.length,
+      //scrollDirection: Axis.horizontal,
+      itemBuilder: (context, index) {
+        return Container(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.3), // 색상
+                      spreadRadius: 5, // 스프레드 크기
+                      blurRadius: 10, // 블러 크기
+                      offset: const Offset(10, 8), // X, Y 이동 거리
+                    ),
+                  ],
+                ),
+                child: Image.network(
+                  snapshot.data![index].thumb,
+                  width: 200,
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Text(
+                snapshot.data![index].title,
+                style: const TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+      separatorBuilder: (context, index) => const SizedBox(width: 15),
+    );
+  }
 }
+
+//flutter run -d chrome --web-renderer html
