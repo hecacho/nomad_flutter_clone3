@@ -28,17 +28,22 @@ class Home extends StatelessWidget {
         future: webtoons,
         builder: (context, snapshot) {
           if (snapshot.hasData == true) {
-            return ListView.builder(
+            return ListView.separated(
+              scrollDirection : Axis.horizontal,
               itemCount: snapshot.data!.length,
               //scrollDirection: Axis.horizontal,
-              itemBuilder:(context, index){
-                return Text(snapshot.data![index].title);
+              itemBuilder: (context, index) {
+                return Text(
+                  snapshot.data![index].title,
+                  style: const TextStyle(fontSize: 20),
+                );
               },
+              separatorBuilder: (context, index) => const SizedBox(width: 20),
             );
           } else {
             return const Center(
-              child: CircularProgressIndicator( 
-                strokeWidth : 7,
+              child: CircularProgressIndicator(
+                strokeWidth: 7,
               ),
             );
           }
