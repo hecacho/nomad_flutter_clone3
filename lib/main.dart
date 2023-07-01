@@ -20,7 +20,7 @@ class MainApp extends StatelessWidget {
           PointerDeviceKind.unknown,
         }
       ),
-      home: Home(),
+      home: HomeScreen(),
     );
   }
 }
