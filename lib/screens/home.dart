@@ -13,40 +13,56 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: myAppBar(),
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 30,
-          ),
-          Expanded(
-            child: FutureBuilder(
-              future: webtoons,
-              builder: (context, snapshot) {
-                if (snapshot.hasData == true) {
-                  return ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) {
-                      return WebtoonContainer(webtoonInfo: snapshot.data![index],);
-                    },
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(width: 15),
-                  );
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      strokeWidth: 7,
-                    ),
-                  );
-                }
-              },
+      appBar: myAppBar("Springles Toon"),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(
+              height: 15,
             ),
-          ),
-        ],
+            const Text(
+              "오늘의 웹툰 - 요일별",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Colors.black45,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            SizedBox(
+              height: 330,
+              child: FutureBuilder(
+                future: webtoons,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData == true) {
+                    return ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, index) {
+                        return WebtoonContainer(
+                          webtoonData: snapshot.data![index],
+                        );
+                      },
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(width: 15),
+                    );
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        strokeWidth: 7,
+                      ),
+                    );
+                  }
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
-
-

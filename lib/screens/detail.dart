@@ -3,31 +3,52 @@ import 'package:flutter_clone3/models/webtoon_model.dart';
 import '../customWidgets/my_widgets.dart';
 
 class DetailScreen extends StatelessWidget {
-  webtoon_model webtoon;
-  DetailScreen({super.key, required this.webtoon});
+  final webtoon_model webtoonData;
+  const DetailScreen({super.key, required this.webtoonData});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: myAppBar(),
-      body: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.3), // 색상
-              spreadRadius: 5, // 스프레드 크기
-              blurRadius: 10, // 블러 크기
-              offset: const Offset(10, 8), // X, Y 이동 거리
+        appBar: myAppBar(webtoonData.title),
+        body: Column(
+          children: [
+            Container(
+              height: 300,
+              padding: const EdgeInsets.all(20),
+              decoration: const BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Colors.black12,
+                    width: 1,
+                  ),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Flexible(
+                    child: WebtoonImageBox(webtoonData: webtoonData),
+                  ),
+                  Flexible(
+                    child: Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(webtoonData.title),
+                          const Text("대충 웹툰에 대한 설명"),
+                          const Text("대충 별점"),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
+            const Expanded(
+              child: Center(
+                child: Text("에피소드 리스트"),
+              ),
+            )
           ],
-        ),
-        child: Image.network(
-          webtoon.thumb,
-          width: 200,
-          fit: BoxFit.cover,
-        ),
-      ),
-    );
+        ));
   }
 }
